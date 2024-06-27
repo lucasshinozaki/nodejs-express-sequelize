@@ -18,6 +18,10 @@ class Services {
         return dataSource[this.model].findByPk(id)
     }
 
+    async pegaUmRegistro(where) {
+        return dataSource[this.model].findOne({where: {...where}})
+    }
+
     async criaRegistro(dadosRegistro) {
         return dataSource[this.model].create(dadosRegistro)
     }
@@ -28,7 +32,7 @@ class Services {
                 throw new Error('ID ou dadosAtualizados não fornecidos');
             }
             const [numeroDeRegistrosAtualizados] = await dataSource[this.model].update(dadosAtualizados, {
-                where: { id: id }
+                where: { ...where }
             })
     
             if (numeroDeRegistrosAtualizados === 0) {
