@@ -30,13 +30,12 @@ class Services {
         return dataSource[this.model].create(dadosRegistro)
     }
 
-    async atualizaRegistro(id, dadosAtualizados) {
+    async atualizaRegistro(where, dadosAtualizados, transacao = {}) {
         try {
-            if (!id || !dadosAtualizados) {
-                throw new Error('ID ou dadosAtualizados não fornecidos');
-            }
-            const [numeroDeRegistrosAtualizados] = await dataSource[this.model].update(dadosAtualizados, {
-                where: { ...where }
+            const [numeroDeRegistrosAtualizados] = await dataSource[this.model]
+            .update(dadosAtualizados, {
+                where: { ...where },
+                transaction: transacao
             })
     
             if (numeroDeRegistrosAtualizados === 0) {
